@@ -41,7 +41,7 @@ if ul_element:
             print(f"Visiting: {full_link}")
 
             driver.get(full_link)
-            time.sleep(3) 
+            time.sleep(5) 
             
             new_page_html = driver.page_source
             new_page_soup = BeautifulSoup(new_page_html, 'html.parser')
@@ -53,22 +53,26 @@ if ul_element:
                 pancan_link_Full = urlbase + pancan_link
                 print(f"Found pancan normalized link: {pancan_link_Full}")
 
-                driver.get(pancan_link)
-                time.sleep(3)  # Wait for the pancan normalized page to load
+                driver.get(pancan_link_Full)
+                time.sleep(5)  # Wait for the pancan normalized page to load
                 
                 # Scrape the desired data from the pancan normalized page
                 pancan_page_html = driver.page_source
                 pancan_page_soup = BeautifulSoup(pancan_page_html, 'html.parser')
 
-                Download_Link = pancan_page_soup.find()
+                # span_tag = soup.find('span', string=lambda text: text and 'download' in text.lower())
 
-                # Example: Scrape some specific data from the pancan page
-                # Update this selector to match what you need from the pancan normalized page
-                data_element = pancan_page_soup.find('div', class_='your-target-class')  # Update with the actual class or tag you need
-                if data_element:
-                    print(data_element.text.strip())  # Print or process the scraped data
-                else:
-                    print("Desired data not found on the pancan normalized page.")
+                # if span_tag:
+                #     # Now find the <a> tag following this span (or within the same parent) to get the download link
+                #     a_tag = span_tag.find_next('a', href=True)  # find the next <a> tag after the span
+                #     if a_tag:
+                #         download_link = a_tag['href']
+                #         print(f"Found download link: {download_link}")
+                #     else:
+                #         print("No <a> tag found near the 'download' span.")
+                # else:
+                #     print("No 'download' span found.")
+                
             else:
                 print("No pancan normalized link found on this page.")
             driver.back()
