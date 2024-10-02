@@ -41,38 +41,38 @@ if ul_element:
             print(f"Visiting: {full_link}")
 
             driver.get(full_link)
-            time.sleep(5) 
+            time.sleep(3) 
             
             new_page_html = driver.page_source
             new_page_soup = BeautifulSoup(new_page_html, 'html.parser')
 
-            # Look for the link with title "pancan normalized"
-            # pancan_link_tag = new_page_soup.find('a', string=lambda text: text and text.endswith('pancan normalized'))
-            # if pancan_link_tag:
-            #     pancan_link = pancan_link_tag['href']
-            #     print(f"Found pancan normalized link: {pancan_link}")
+            
+            pancan_link_tag = new_page_soup.find('a', string=lambda text: text and text.endswith('pancan normalized'))
+            if pancan_link_tag:
+                pancan_link = pancan_link_tag['href']
+                pancan_link_Full = urlbase + pancan_link
+                print(f"Found pancan normalized link: {pancan_link_Full}")
 
-            #     # Navigate to the pancan normalized link
-            #     driver.get(pancan_link)
-            #     time.sleep(5)  # Wait for the pancan normalized page to load
+                driver.get(pancan_link)
+                time.sleep(3)  # Wait for the pancan normalized page to load
                 
-            #     # Scrape the desired data from the pancan normalized page
-            #     pancan_page_html = driver.page_source
-            #     pancan_page_soup = BeautifulSoup(pancan_page_html, 'html.parser')
+                # Scrape the desired data from the pancan normalized page
+                pancan_page_html = driver.page_source
+                pancan_page_soup = BeautifulSoup(pancan_page_html, 'html.parser')
 
-            #     # Example: Scrape some specific data from the pancan page
-            #     # Update this selector to match what you need from the pancan normalized page
-            #     data_element = pancan_page_soup.find('div', class_='your-target-class')  # Update with the actual class or tag you need
-            #     if data_element:
-            #         print(data_element.text.strip())  # Print or process the scraped data
-            #     else:
-            #         print("Desired data not found on the pancan normalized page.")
-            # else:
-            #     print("No pancan normalized link found on this page.")
+                Download_Link = pancan_page_soup.find()
 
-            # Go back to the main page
+                # Example: Scrape some specific data from the pancan page
+                # Update this selector to match what you need from the pancan normalized page
+                data_element = pancan_page_soup.find('div', class_='your-target-class')  # Update with the actual class or tag you need
+                if data_element:
+                    print(data_element.text.strip())  # Print or process the scraped data
+                else:
+                    print("Desired data not found on the pancan normalized page.")
+            else:
+                print("No pancan normalized link found on this page.")
             driver.back()
-            time.sleep(5)  # Wait for the main page to reload
+            time.sleep(2)  # Wait for the main page to reload
 else:
     print("The <ul> element was not found.")
 
