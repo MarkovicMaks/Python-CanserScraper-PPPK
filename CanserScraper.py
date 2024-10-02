@@ -17,8 +17,9 @@ service = Service(chrome_driver_path)
 driver = webdriver.Chrome(service=service, options=options)
 
 # Main URL to scrape
-url = 'https://tcga.xenahubs.net'
-driver.get(url)
+urlbase = 'https://xenabrowser.net/datapages/'
+urlOne = urlbase + '?hub=https://tcga.xenahubs.net:443'
+driver.get(urlOne)
 time.sleep(5)  # Wait for the page to load
 
 # Get the page source
@@ -36,40 +37,38 @@ if ul_element:
         a_tag = li.find('a')
         if a_tag:
             link = a_tag['href']
-            full_link = url + link  # Create the full URL
+            full_link = urlbase + link  # Create the full URL
             print(f"Visiting: {full_link}")
 
-            # Navigate to the link
             driver.get(full_link)
-            time.sleep(5)  # Wait for the new page to load
+            time.sleep(5) 
             
-            # Scrape the data from the new page
             new_page_html = driver.page_source
             new_page_soup = BeautifulSoup(new_page_html, 'html.parser')
 
             # Look for the link with title "pancan normalized"
-            pancan_link_tag = new_page_soup.find('a', string=lambda text: text and text.endswith('pancan normalized'))
-            if pancan_link_tag:
-                pancan_link = pancan_link_tag['href']
-                print(f"Found pancan normalized link: {pancan_link}")
+            # pancan_link_tag = new_page_soup.find('a', string=lambda text: text and text.endswith('pancan normalized'))
+            # if pancan_link_tag:
+            #     pancan_link = pancan_link_tag['href']
+            #     print(f"Found pancan normalized link: {pancan_link}")
 
-                # Navigate to the pancan normalized link
-                driver.get(pancan_link)
-                time.sleep(5)  # Wait for the pancan normalized page to load
+            #     # Navigate to the pancan normalized link
+            #     driver.get(pancan_link)
+            #     time.sleep(5)  # Wait for the pancan normalized page to load
                 
-                # Scrape the desired data from the pancan normalized page
-                pancan_page_html = driver.page_source
-                pancan_page_soup = BeautifulSoup(pancan_page_html, 'html.parser')
+            #     # Scrape the desired data from the pancan normalized page
+            #     pancan_page_html = driver.page_source
+            #     pancan_page_soup = BeautifulSoup(pancan_page_html, 'html.parser')
 
-                # Example: Scrape some specific data from the pancan page
-                # Update this selector to match what you need from the pancan normalized page
-                data_element = pancan_page_soup.find('div', class_='your-target-class')  # Update with the actual class or tag you need
-                if data_element:
-                    print(data_element.text.strip())  # Print or process the scraped data
-                else:
-                    print("Desired data not found on the pancan normalized page.")
-            else:
-                print("No pancan normalized link found on this page.")
+            #     # Example: Scrape some specific data from the pancan page
+            #     # Update this selector to match what you need from the pancan normalized page
+            #     data_element = pancan_page_soup.find('div', class_='your-target-class')  # Update with the actual class or tag you need
+            #     if data_element:
+            #         print(data_element.text.strip())  # Print or process the scraped data
+            #     else:
+            #         print("Desired data not found on the pancan normalized page.")
+            # else:
+            #     print("No pancan normalized link found on this page.")
 
             # Go back to the main page
             driver.back()
