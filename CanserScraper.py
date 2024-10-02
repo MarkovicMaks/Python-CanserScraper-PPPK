@@ -5,9 +5,11 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
 
+#ne znam zašto ipak prikazuje ui
 options = Options()
 options.headless = True
 
+#tu promjeni path do svojeg chrome drivera
 chrome_driver_path = 'C:/Users/Korisnik/Desktop/chromedriver-win64/chromedriver.exe'
 service = Service(chrome_driver_path)
 driver = webdriver.Chrome(service=service, options=options)
@@ -15,7 +17,7 @@ driver = webdriver.Chrome(service=service, options=options)
 urlbase = 'https://xenabrowser.net/datapages/'
 urlOne = urlbase + '?hub=https://tcga.xenahubs.net:443'
 driver.get(urlOne)
-time.sleep(5) 
+time.sleep(3) 
 
 html = driver.page_source
 soup = BeautifulSoup(html, 'html.parser')
@@ -23,6 +25,7 @@ soup = BeautifulSoup(html, 'html.parser')
 ul_element = soup.find('ul')
 if ul_element:
     li_elements = ul_element.find_all('li')
+
     for li in li_elements:
         a_tag = li.find('a')
         if a_tag:
@@ -37,8 +40,8 @@ if ul_element:
             new_page_soup = BeautifulSoup(new_page_html, 'html.parser')
 
             
-            pancancakecake_link_tag = new_page_soup.find('a', string=lambda text: text and text.endswith('pancancake normalized'))
-            if pancancakecake_link_tag:
+            pancancake_link_tag = new_page_soup.find('a', string=lambda text: text and text.endswith('pancan normalized'))
+            if pancancake_link_tag:
                 pancancake_link = pancancake_link_tag['href']
                 pancancake_link_Full = urlbase + pancancake_link
                 print(f"Found pancancake normalized link: {pancancake_link_Full}")
